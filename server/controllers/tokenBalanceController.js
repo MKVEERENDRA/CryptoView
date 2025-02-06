@@ -1,6 +1,6 @@
 const Web3 = require("web3");
 const dotenv = require("dotenv");
-import {ERC20_ABI} from "../Erc.json"
+const {ERC20_ABI} = require("../Erc.json");
 
 dotenv.config();
 
