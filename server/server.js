@@ -9,7 +9,7 @@ const userPortfolio = require("./routes/userPortfolio.js");
 const mongoose = require("mongoose");
 const ipfsRoutes = require("./routes/ipfs.js");
 const cors = require("cors");
-
+const tokenBalanceRoutes = require("./routes/tokenBalance"); 
 dotenv.config();
 
 const app = express();
@@ -36,6 +36,8 @@ app.use("/api/portfolio/", userPortfolio);
 app.use("/api/transactions/", transactionsRoutes);
 app.use("/api/users/", usersRoutes);
 app.use("/api/ipfs/", ipfsRoutes);
+app.use("/api/token", tokenBalanceRoutes); 
+
 
 //connect to db et lancement du server
 mongoose
