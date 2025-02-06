@@ -16,10 +16,8 @@ const app = express();
 
 // configuration cors
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://api.coingecko.com/"],
-  optionsSuccessStatus: 200,
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 // middleware pour parser le json
 app.use(express.json());
@@ -47,7 +45,7 @@ mongoose
     console.log(`connected to db`);
   })
   .catch((error) => {
-    // console.log(error);
+     console.log(error);
   });
 
 app.listen(process.env.PORT, () => {

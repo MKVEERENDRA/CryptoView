@@ -1,10 +1,10 @@
-const Web3 = require("web3");
+const {Web3, HttpProvider} = require("web3");
 const dotenv = require("dotenv");
 const {ERC20_ABI} = require("../Erc.json");
 
 dotenv.config();
 
-const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ALCHEMY_API_URL));
+const web3 = new Web3(new HttpProvider(process.env.ALCHEMY_API_URL));
 
 
 
