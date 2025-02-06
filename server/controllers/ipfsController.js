@@ -1,20 +1,20 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
-import DataModel from '../models/transactionsModel.js'; 
+const axios = require("axios");
+const IpfsModel = require("../models/ipfsModel");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
-export const storeOnIPFS = async (req, res) => {
+exports.storeOnIPFS = async (req, res) => {
   try {
     const { text } = req.body;
-    if (!text) return res.status(400).json({ error: 'Text data is required' });
+    if (!text) return res.status(400).json({ error: "Text data is required" });
 
     const response = await axios.post(
-      'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+      "https://api.pinata.cloud/pinning/pinJSONToIPFS",
       { text },
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           pinata_api_key: process.env.PINATA_API_KEY,
           pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
         },
@@ -22,7 +22,7 @@ export const storeOnIPFS = async (req, res) => {
     );
 
     const ipfsHash = response.data.IpfsHash;
-    const savedData = await DataModel.create({ ipfsHash });
+    const savedData = await IpfsModel.create({ ipfsHash });
 
     res.json({ ipfsHash, id: savedData._id });
   } catch (error) {
@@ -30,10 +30,10 @@ export const storeOnIPFS = async (req, res) => {
   }
 };
 
-export const retrieveFromIPFS = async (req, res) => {
+exports.retrieveFromIPFS = async (req, res) => {
   try {
-    const dataRecord = await DataModel.findById(req.params.id);
-    if (!dataRecord) return res.status(404).json({ error: 'Data not found' });
+    const dataRecord = await IpfsModel.findById(req.params.id);
+    if (!dataRecord) return res.status(404).json({ error: "Data not found" });
 
     const ipfsUrl = `https://gateway.pinata.cloud/ipfs/${dataRecord.ipfsHash}`;
     const response = await axios.get(ipfsUrl);
